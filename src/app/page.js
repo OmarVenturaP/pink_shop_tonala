@@ -1,7 +1,15 @@
+"use client";
+import { useState } from 'react';
 import data from '../data/productos.json';
 
 export default function Home() {
-  const { productos, redes } = data;
+  const [productoSeleccionado, setProductoSeleccionado] = useState(null);
+  const redes = [
+    { nombre: 'Facebook', url: 'https://facebook.com/tiempopararegalar', color: 'text-blue-600 hover:text-blue-800' },
+    { nombre: 'Instagram', url: 'https://instagram.com/tiempopararegalar', color: 'text-pink-500 hover:text-pink-700' },
+    { nombre: 'WhatsApp', url: 'https://wa.me/1234567890', color: 'text-green-500 hover:text-green-700' },
+    { nombre: 'TikTok', url: 'https://tiktok.com/@tiempopararegalar', color: 'text-black hover:text-gray-800' },
+  ];
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans">
@@ -25,39 +33,63 @@ export default function Home() {
         </div>
       </header>
 
-      {/* SECCIÓN PRODUCTOS - Grid dinámico */}
-      <section id="productos" className="container mx-auto py-16 px-4">
-        <h2 className="text-3xl font-bold text-center mb-12">
-          Nuestros <span className="text-regalo-verde">productos</span>
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {productos.map((item) => (
-            <div key={item.id} className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all duration-300">
-              <div className="relative h-64 overflow-hidden">
-                <img src={item.imagen} alt={item.nombre} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-                <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-regalo-rosa shadow">
-                  {item.categoria}
-                </div>
-              </div>
-              <div className="p-6 text-center">
-                <h3 className="text-xl font-bold mb-2 group-hover:text-regalo-azul-c transition">{item.nombre}</h3>
-                <p className="text-2xl font-black text-regalo-azul-r mb-4">${item.precio}</p>
-                <button className="bg-regalo-verde hover:bg-regalo-rosa text-white w-full py-3 rounded-xl font-bold transition-colors">
-                  Ver Detalle
-                </button>
-              </div>
-            </div>
+      {/* PRODUCTOS */}
+      <section className="max-w-7xl mx-auto py-16 px-4">
+      <h2 className="text-3xl font-bold text-center mb-12">
+        Nuestros <span className="text-regalo-verde">productos</span>
+      </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+          {data.productos.map((producto) => (
+            <TarjetaProducto 
+              key={producto.id} 
+              producto={producto} 
+              onOpenModal={() => setProductoSeleccionado(producto)}
+            />
           ))}
         </div>
       </section>
+            {/* MODAL DE DETALLE */}
+            {productoSeleccionado && (
+              <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+                <div className="bg-white rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative shadow-2xl">
+                  <button 
+                    onClick={() => setProductoSeleccionado(null)}
+                    className="absolute top-4 right-4 text-gray-500 hover:text-regalo-rosa text-2xl font-bold"
+                  >✕</button>
+                  
+                  <div className="flex flex-col md:flex-row">
+                    <div className="md:w-1/2">
+                      <img src={productoSeleccionado.imagenes[0]} alt={productoSeleccionado.nombre} className="w-full h-full object-cover" />
+                    </div>
+                    <div className="md:w-1/2 p-8">
+                      <span className="text-regalo-azul-c font-bold text-sm uppercase">{productoSeleccionado.categoria}</span>
+                      <h3 className="text-3xl font-black text-regalo-azul-r mt-2">{productoSeleccionado.nombre}</h3>
+                      <p className="text-gray-600 mt-4">{productoSeleccionado.descripcion}</p>
+                      <div className="mt-6">
+                        <p className="font-bold">Colores disponibles:</p>
+                        <div className="flex gap-2 mt-2">
+                          {productoSeleccionado.colores.map(c => (
+                            <span key={c} className="px-3 py-1 bg-gray-100 rounded-full text-xs border border-gray-200">{c}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <p className="text-4xl font-black text-regalo-verde mt-8">${productoSeleccionado.precio}</p>
+                      <button className="mt-6 w-full bg-regalo-rosa text-white py-4 rounded-2xl font-bold hover:scale-105 transition-transform shadow-lg">
+                        Contactar por WhatsApp
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
       {/* SECCIÓN PROMOCIONES - Color Rosa del Logo */}
       <section id="promociones" className="bg-regalo-rosa py-20 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-4xl font-black mb-6 italic underline decoration-regalo-verde">¡PROMO DEL MES!</h2>
+          <h2 className="text-4xl font-black mb-6 italic underline decoration-regalo-verde">¡PROMO DE FIN DE AÑO!</h2>
           <p className="text-xl max-w-2xl mx-auto mb-8 font-light">
             Encuentra el detalle perfecto con un 15% de descuento en tu primera compra usando el código 
-            <span className="font-bold block text-3xl mt-2 tracking-widest text-regalo-azul-r">REGALO2025</span>
+            <span className="font-bold block text-3xl mt-2 tracking-widest text-regalo-azul-r">REGALOFIN2025</span>
           </p>
         </div>
       </section>
@@ -67,8 +99,8 @@ export default function Home() {
         <div className="container mx-auto px-4 flex flex-col items-center">
           <h3 className="text-2xl font-bold text-regalo-azul-r mb-8 text-center">Conéctate con Nosotros</h3>
           <div className="flex gap-8 mb-12">
-            {redes.map((red) => (
-              <a key={red.nombre} href={red.url} className={`text-lg font-bold transition-colors ${red.color}`}>
+            {data.redes.map((red) => (
+              <a key={red.nombre} href={red.url} target='_blank' className={`text-lg font-bold transition-colors ${red.color}`}>
                 {red.nombre}
               </a>
             ))}
@@ -85,7 +117,7 @@ export default function Home() {
           </div>
           <div>
             <h4 className="font-bold text-regalo-azul-c mb-4">UBICACIÓN</h4>
-            <p className="text-sm opacity-80">Calle Principal 123<br/>Ciudad Programación, CP 2025</p>
+            <p className="text-sm opacity-80">Tonalá, Chiapas<br/>C.P. 30500</p>
           </div>
           <div>
             <h4 className="font-bold text-regalo-rosa mb-4">HORARIOS</h4>
@@ -96,6 +128,54 @@ export default function Home() {
           © 2025 Tiempo Para Regalar. Diseñado por <a href='https://servitectonala.com' className='font-bold text-regalo-rosa' target='_blank'>SERVITEC.</a>
         </div>
       </footer>
+    </div>
+  );
+}
+
+
+// Sub-componente para la Tarjeta con Carrusel
+function TarjetaProducto({ producto, onOpenModal }) {
+  const [imgIndex, setImgIndex] = useState(0);
+
+  const nextImg = (e) => {
+    e.stopPropagation();
+    setImgIndex((prev) => (prev + 1) % producto.imagenes.length);
+  };
+
+  const prevImg = (e) => {
+    e.stopPropagation();
+    setImgIndex((prev) => (prev - 1 + producto.imagenes.length) % producto.imagenes.length);
+  };
+
+  return (
+    <div className="group bg-white rounded-3xl overflow-hidden border-2 border-transparent hover:border-regalo-azul-c transition-all shadow-lg">
+      {/* Carrusel */}
+      <div className="relative h-64 overflow-hidden bg-gray-200">
+        <img src={producto.imagenes[imgIndex]} alt={producto.nombre} className="w-full h-full object-cover transition-opacity duration-500" />
+        
+        {producto.imagenes.length > 1 && (
+          <>
+            <button onClick={prevImg} className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hover:bg-white text-regalo-azul-r">❮</button>
+            <button onClick={nextImg} className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 p-2 rounded-full hover:bg-white text-regalo-azul-r">❯</button>
+            <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1">
+              {producto.imagenes.map((_, i) => (
+                <div key={i} className={`w-2 h-2 rounded-full ${i === imgIndex ? 'bg-regalo-rosa' : 'bg-white/50'}`} />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
+
+      <div className="p-6 text-center">
+        <h3 className="text-xl font-bold mb-2">{producto.nombre}</h3>
+        <p className="text-2xl font-black text-regalo-verde mb-4">${producto.precio}</p>
+        <button 
+        onClick={onOpenModal}
+        className="bg-regalo-verde hover:bg-regalo-rosa text-white w-full py-3 rounded-xl font-bold transition-colors"
+        >
+        Ver Detalle
+      </button>
+      </div>
     </div>
   );
 }
