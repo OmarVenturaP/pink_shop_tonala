@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Tiempo para regalar",
+  title: "PINK SHOP",
   description: "Expresa lo que sientes con un regalo único y especial",
 };
 

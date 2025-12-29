@@ -7,9 +7,13 @@
   --color-regalo-verde: #7AC143;
   --color-regalo-lila: #9B51E0;
   --color-regalo-amarillo: #F2C94C;
+  --color-regalo-negro: #333333;
 }
 
 body {
   margin: 0;
   padding: 0;
+}
+html {
+  scroll-behavior: smooth;
 }

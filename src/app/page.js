@@ -1,6 +1,6 @@
 "use client";
 import { useState, useMemo } from 'react';
-import { Instagram, Facebook, MessageCircle, Mail, Users, Gift, Smile, Award } from 'lucide-react';
+import { Instagram, Facebook, MessageCircle, Mail, Users, Gift, Smile, Award, Truck, ShieldCheck, CalendarDays, Wallet, Layers, MapPin } from 'lucide-react';
 import Counter from '../components/Counter';
 import data from '../data/productos.json';
 
@@ -51,26 +51,27 @@ export default function Home() {
     <div className="min-h-screen bg-white text-gray-800 font-sans">
       
       {/* HEADER - Inspirado en el círculo azul celeste del logo */}
-      <header className="sticky top-0 z-50 bg-white border-b-2 border-regalo-azul-c shadow-sm">
+      <header className="sticky top-0 z-50 bg-white border-b-2 border-regalo-rosa shadow-sm">
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <div className="w-10 h-10 rounded-full border-2 border-regalo-lila flex items-center justify-center font-bold text-regalo-rosa">
-              <img src="https://res.cloudinary.com/dzgqpqv9f/image/upload/v1766933777/logo_bg_regalar_yfbuhv.png" alt="Logo Tiempo Para Regalar" className="w-8 h-8" />
+            <div className="w-12 h-12 rounded-full  flex items-center justify-center font-bold text-regalo-rosa">
+              <img src="https://res.cloudinary.com/dzgqpqv9f/image/upload/v1767021085/logo_pink_shop_mkqx5z.png" alt="Logo Tiempo Para Regalar" className="w-12 h-12" />
             </div>
             <h1 className="text-xl font-black tracking-tighter">
               <a href='/'><span className="text-regalo-rosa">PINK SHOP</span></a>
             </h1>
           </div>
           <nav className="hidden md:flex gap-6 font-medium text-regalo-azul-r">
-            <a href="#productos" className="hover:text-regalo-verde transition">Productos</a>
-            <a href="#promociones" className="hover:text-regalo-verde transition">Promociones</a>
-            <a href="#contacto" className="hover:text-regalo-verde transition">Contacto</a>
-            <a href="#trayectoria" className="hover:text-regalo-verde transition">Trayectoria</a>
+            <a href="#productos" className="hover:text-regalo-rosa transition">Productos</a>
+            <a href="#promociones" className="hover:text-regalo-rosa transition">Promociones</a>
+            <a href="#servicios" className="hover:text-regalo-rosa transition">Servicios</a>
+            <a href="#trayectoria" className="hover:text-regalo-rosa transition">Trayectoria</a>
+            <a href="#contacto" className="hover:text-regalo-rosa transition">Contacto</a>
           </nav>
         </div>
       </header>
 
-      <h2 id="productos" className="text-3xl font-bold text-center py-6">
+      <h2 id="productos" className="scroll-mt-24 text-3xl font-bold text-center py-6">
         Nuestros <span className="text-regalo-verde">productos</span>
       </h2>
       {/* BARRA DE FILTROS */}
@@ -273,123 +274,193 @@ export default function Home() {
           </div>
         )}
 
-      {/* SECCIÓN PROMOCIONES - Color Rosa del Logo */}
-      <section id="promociones" className="bg-regalo-lila py-6 text-white">
+      <section id="promociones" className="scroll-mt-24 bg-regalo-lila py-6 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-4xl font-black mb-6 italic underline decoration-regalo-verde">¡PROMO DE FIN DE AÑO!</h2>
           <p className="text-xl max-w-2xl mx-auto mb-4 font-light">
-            Encuentra el detalle perfecto con un <span className='text-2xl font-black'>20%</span> de descuento en tu segunda compra usando el código 
+            Encuentra el detalle perfecto con un <span className='text-2xl font-black'>10%</span> de descuento en tu segunda compra usando el código 
             <span className="font-bold block text-3xl mt-2 tracking-widest text-regalo-rosa">ADIOS2025</span>
           </p>
         </div>
       </section>
 
-{/* SECCIÓN DE TRAYECTORIA - ALTO CONTRASTE */}
-<section id='trayectoria' className="py-24 bg-[#0A192F] relative overflow-hidden">
-  {/* Elementos decorativos de fondo (Círculos de luz) */}
-  <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-    <div className="absolute -top-24 -left-24 w-96 h-96 bg-regalo-azul-r/20 rounded-full blur-[120px]"></div>
-    <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-regalo-rosa/20 rounded-full blur-[120px]"></div>
-  </div>
-
-  <div className="max-w-7xl mx-auto px-4 relative z-10">
-    <div className="text-center mb-20">
-      <h2 className="text-4xl md:text-5xl font-black text-white italic tracking-tight">
-        NUESTRA <span className="text-regalo-azul-c">TRAYECTORIA</span> EN NÚMEROS
-      </h2>
-      <p className="text-gray-400 mt-2 font-medium">Resultados que hablan de nuestro compromiso</p>
-      <div className="h-1 w-20 bg-regalo-rosa mx-auto mt-6 rounded-full"></div>
-    </div>
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-      {/* Tarjeta 1 */}
-      <StatCardDarkMode 
-        icon={<Users size={32} />} 
-        target="500" 
-        label="Clientes Satisfechos" 
-        symbol="+"
-        accentColor="text-regalo-azul-c"
-      />
-      {/* Tarjeta 2 */}
-      <StatCardDarkMode 
-        icon={<Gift size={32} />} 
-        target="2200" 
-        label="Regalos Enviados" 
-        symbol="+"
-        accentColor="text-regalo-rosa"
-      />
-      {/* Tarjeta 3 */}
-      <StatCardDarkMode 
-        icon={<Smile size={32} />} 
-        target="100" 
-        label="Felicidad Garantizada" 
-        symbol="%"
-        accentColor="text-regalo-verde"
-      />
-      {/* Tarjeta 4 */}
-      <StatCardDarkMode 
-        icon={<Award size={32} />} 
-        target="4" 
-        label="Años de Experiencia" 
-        symbol=""
-        accentColor="text-white"
-      />
-    </div>
-  </div>
-</section>
-
-{/* CONTACTO Y REDES */}
-<section id="contacto" className="py-20 bg-white border-t border-gray-100">
-  <div className="container mx-auto px-4 flex flex-col items-center">
-    <h3 className="text-3xl font-black text-regalo-azul-r mb-2 text-center italic">
-      ¿TIENES DUDAS?
-    </h3>
-    <p className="text-gray-500 mb-10 text-center">Estamos listos para ayudarte a elegir el mejor regalo.</p>
-    
-    <div className="flex flex-wrap justify-center gap-10 md:gap-16">
-      {data.redes.map((red) => {
-        // Lógica para asignar el icono según el nombre en el JSON
-        const renderIcon = () => {
-          switch (red.nombre.toLowerCase()) {
-            case 'instagram': return <Instagram size={32} />;
-            case 'facebook': return <Facebook size={32} />;
-            case 'whatsapp': return <MessageCircle size={32} />;
-            default: return <Mail size={32} />;
-          }
-        };
-
-        // Colores de hover basados en tu logo
-        const hoverColors = {
-          instagram: "hover:text-regalo-rosa hover:scale-110",
-          facebook: "hover:text-regalo-azul-r hover:scale-110",
-          whatsapp: "hover:text-regalo-verde hover:scale-110",
-          default: "hover:text-regalo-azul-c hover:scale-110"
-        };
-
-        const estiloHover = hoverColors[red.nombre.toLowerCase()] || hoverColors.default;
-
-        return (
-          <a 
-            key={red.nombre} 
-            href={red.url} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className={`flex flex-col items-center gap-3 text-gray-400 transition-all duration-300 ${estiloHover}`}
-          >
-            <div className="p-4 rounded-2xl bg-gray-50 shadow-sm border border-gray-100">
-              {renderIcon()}
-            </div>
-            <span className="text-sm font-bold uppercase tracking-widest">
-              {red.nombre}
+    <section id='servicios' className="scroll-mt-24 py-20 bg-white">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-4">
+          <div className="max-w-2xl">
+            <h2 className="text-4xl font-black text-regalo-azul-r italic leading-tight">
+              MÁS QUE UN REGALO, <br />
+              <span className="text-regalo-rosa">UNA EXPERIENCIA</span>
+            </h2>
+            <p className="text-gray-500 mt-4 font-medium">
+              En <span className="text-regalo-rosa">PINK SHOP</span> nos esforzamos por ofrecerte el mejor servicio y calidad en cada detalle.
+            </p>
+          </div>
+          <div className="hidden md:block">
+            <span className="text-sm font-black text-gray-300  uppercase rotate-90 inline-block origin-right">
+              Servicios
             </span>
-          </a>
-        );
-      })}
-    </div>
-  </div>
-</section>
+          </div>
+        </div>
 
-      {/* FOOTER */}
+        {/* Cuadrícula de Beneficios */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-12 gap-x-8">
+          
+          {/* Envío Local */}
+          <BenefitItem 
+            icon={<MapPin size={32} />}
+            title="ENVIOS EN TONALA"
+            description="¡Gratis en compras mayores a $399! Entregamos en la puerta de tu casa o trabajo dentro de la ciudad."
+            color="text-regalo-azul-c"
+          />
+
+          {/* Calidad */}
+          <BenefitItem 
+            icon={<ShieldCheck size={32} />}
+            title="CALIDAD GARANTIZADA"
+            description="Seleccionamos cuidadosamente cada producto para asegurar que recibas solo lo mejor."
+            color="text-regalo-verde"
+          />
+
+          {/* Temporadas */}
+          <BenefitItem 
+            icon={<CalendarDays size={32} />}
+            title="SIEMPRE A LA MODA"
+            description="Contamos con productos especiales para cada temporada."
+            color="text-regalo-rosa"
+          />
+
+          {/* Precios */}
+          <BenefitItem 
+            icon={<Wallet size={32} />}
+            title="PRECIOS ACCESIBLES"
+            description="Regalos increíbles que se ajustan a tu presupuesto sin sacrificar la elegancia ni calidad."
+            color="text-regalo-azul-r"
+          />
+
+          {/* Variedad */}
+          <BenefitItem 
+            icon={<Layers size={32} />}
+            title="GRAN VARIEDAD"
+            description="Desde tecnología hasta regalos pequeños. Tenemos algo para cada tipo de persona."
+            color="text-regalo-azul-c"
+          />
+
+          {/* Envíos Nacionales */}
+          <BenefitItem 
+            icon={<Truck size={32} />}
+            title="ENVIOS A TODO MÉXICO"
+            description="¿Estás fuera de Tonalá, Chiapas? Enviamos a todo México por las mejores paqueterías (FedEx, DHL, Estafeta)."
+            color="text-regalo-verde"
+          />
+
+        </div>
+      </div>
+    </section>
+
+    <section id='trayectoria' className="scroll-mt-24 py-24 bg-[#0A192F] relative overflow-hidden">
+      {/* Elementos decorativos de fondo (Círculos de luz) */}
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-24 -left-24 w-96 h-96 bg-regalo-azul-r/20 rounded-full blur-[120px]"></div>
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-regalo-rosa/20 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl md:text-5xl font-black text-white italic tracking-tight">
+            NUESTRA <span className="text-regalo-azul-c">TRAYECTORIA</span> EN NÚMEROS
+          </h2>
+          <p className="text-gray-400 mt-2 font-medium">Resultados que hablan de nuestro compromiso</p>
+          <div className="h-1 w-20 bg-regalo-rosa mx-auto mt-6 rounded-full"></div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Tarjeta 1 */}
+          <StatCardDarkMode 
+            icon={<Users size={32} />} 
+            target="500" 
+            label="Clientes Satisfechos" 
+            symbol="+"
+            accentColor="text-regalo-azul-c"
+          />
+          {/* Tarjeta 2 */}
+          <StatCardDarkMode 
+            icon={<Gift size={32} />} 
+            target="2200" 
+            label="Regalos Enviados" 
+            symbol="+"
+            accentColor="text-regalo-rosa"
+          />
+          {/* Tarjeta 3 */}
+          <StatCardDarkMode 
+            icon={<Smile size={32} />} 
+            target="100" 
+            label="Felicidad Garantizada" 
+            symbol="%"
+            accentColor="text-regalo-verde"
+          />
+          {/* Tarjeta 4 */}
+          <StatCardDarkMode 
+            icon={<Award size={32} />} 
+            target="4" 
+            label="Años de Experiencia" 
+            symbol=""
+            accentColor="text-white"
+          />
+        </div>
+      </div>
+    </section>
+
+    <section id="contacto" className="scroll-mt-24 py-20 bg-white border-t border-gray-100">
+      <div className="container mx-auto px-4 flex flex-col items-center">
+        <h3 className="text-3xl font-black text-regalo-azul-r mb-2 text-center italic">
+          ¿TIENES DUDAS?
+        </h3>
+        <p className="text-gray-500 mb-10 text-center">Estamos listos para ayudarte a elegir el mejor regalo.</p>
+        
+        <div className="flex flex-wrap justify-center gap-10 md:gap-16">
+          {data.redes.map((red) => {
+            // Lógica para asignar el icono según el nombre en el JSON
+            const renderIcon = () => {
+              switch (red.nombre.toLowerCase()) {
+                case 'instagram': return <Instagram size={32} />;
+                case 'facebook': return <Facebook size={32} />;
+                case 'whatsapp': return <MessageCircle size={32} />;
+                default: return <Mail size={32} />;
+              }
+            };
+
+            // Colores de hover basados en tu logo
+            const hoverColors = {
+              instagram: "hover:text-regalo-rosa hover:scale-110",
+              facebook: "hover:text-regalo-azul-r hover:scale-110",
+              whatsapp: "hover:text-regalo-verde hover:scale-110",
+              default: "hover:text-regalo-azul-c hover:scale-110"
+            };
+
+            const estiloHover = hoverColors[red.nombre.toLowerCase()] || hoverColors.default;
+
+            return (
+              <a 
+                key={red.nombre} 
+                href={red.url} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className={`flex flex-col items-center gap-3 text-gray-400 transition-all duration-300 ${estiloHover}`}
+              >
+                <div className="p-4 rounded-2xl bg-gray-50 shadow-sm border border-gray-100">
+                  {renderIcon()}
+                </div>
+                <span className="text-sm font-bold uppercase tracking-widest">
+                  {red.nombre}
+                </span>
+              </a>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+
       <footer className="bg-regalo-azul-c text-white py-2">
         {/* OPCIONAL 
         <div className="container mx-auto px-4 grid md:grid-cols-3 gap-8 text-center md:text-left">
@@ -414,6 +485,22 @@ export default function Home() {
     </div>
   );
 }
+
+const BenefitItem = ({ icon, title, description, color }) => (
+  <div className="flex gap-6 group">
+    <div className={`shrink-0 w-14 h-14 rounded-2xl bg-gray-50 flex items-center justify-center ${color} transition-colors group-hover:bg-white group-hover:shadow-xl duration-300`}>
+      {icon}
+    </div>
+    <div>
+      <h3 className="text-xl font-extrabold text-gray-800 mb-2 group-hover:text-regalo-azul-r transition-colors">
+        {title}
+      </h3>
+      <p className="text-gray-500 leading-relaxed text-sm font-medium">
+        {description}
+      </p>
+    </div>
+  </div>
+);
 
 const StatCardDarkMode = ({ icon, target, label, symbol, accentColor }) => (
   <div className="relative group p-10 rounded-[3rem] bg-white/5 border border-white/10 backdrop-blur-sm hover:bg-white/10 transition-all duration-500 text-center">
@@ -469,7 +556,7 @@ function TarjetaProducto({ producto, onOpenModal }) {
   
 
   return (
-    <div className="group bg-white rounded-3xl overflow-hidden border-2 border-transparent hover:border-regalo-azul-c transition-all duration-300 shadow-lg hover:shadow-2xl">
+    <div className="group bg-white rounded-3xl overflow-hidden border-2 border-transparent hover:border-regalo-lila transition-all duration-300 shadow-lg hover:shadow-2xl">
       {/* Carrusel */}
       <div className="relative h-80 overflow-hidden bg-gray-200">
       <Badge estado={producto.estado} />
@@ -498,7 +585,7 @@ function TarjetaProducto({ producto, onOpenModal }) {
             <span className="text-regalo-rosa">★</span> +{producto.vendidos} vendidos
           </p>
         )}
-        <h3 className="text-xl font-bold mb-2 group-hover:text-regalo-azul-c transition">{producto.nombre}</h3>
+        <h3 className="text-xl font-bold mb-2 group-hover:text-regalo-rosa transition">{producto.nombre}</h3>
         {/* Lógica de Precios */}
           <div className="flex justify-center items-center gap-3 mb-4">
           {producto.precioOriginal && (

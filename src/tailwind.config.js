@@ -14,6 +14,7 @@ module.exports = {
         'regalo-verde': '#7AC143',
         'regalo-lila': '#9B51E0',
         'regalo-amarillo': '#F2C94C',
+        'regalo-negro': '#333333',
       },
     },
   },
