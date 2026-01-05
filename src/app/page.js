@@ -2,6 +2,9 @@
 import { useState, useMemo, useEffect } from 'react';
 import { Instagram, Facebook, MessageCircle, Mail, Users, Gift, Smile, Award, Truck, ShieldCheck, CalendarDays, Wallet, Layers, MapPin } from 'lucide-react';
 import Counter from '../components/Counter';
+import Link from 'next/link';
+
+
 
 export default function Home() {
   const [productos, setProductos] = useState([]);
@@ -17,10 +20,17 @@ export default function Home() {
   useEffect(() => {
     async function cargarProductos() {
       try {
-        const res = await fetch('/api/productos');
+        setLoading(true); // Aseguramos que inicie en true
+
+        // 1. Iniciamos la petición y el temporizador de 3 segundos al mismo tiempo
+        const peticionDatos = fetch('/api/productos');
+        const temporizador = new Promise((resolve) => setTimeout(resolve, 1500));
+
+        // 2. Esperamos a que ambos terminen (el que tarde más mandará)
+        const [res] = await Promise.all([peticionDatos, temporizador]);
+        
         if (!res.ok) throw new Error("No se pudo conectar con la base de datos");
         const data = await res.json();
-        
 
         const productosFormateados = data.map(p => ({
           ...p,
@@ -33,8 +43,9 @@ export default function Home() {
 
         setProductos(productosFormateados);
       } catch (err) {
-        setError(err.message);
+        console.error("Error cargando datos:", err); // Corregido 'error' por 'err'
       } finally {
+        // 3. Solo quitamos el loading cuando pasaron los 3s Y llegaron los datos
         setLoading(false);
       }
     }
@@ -75,8 +86,39 @@ export default function Home() {
   }, [productos, busqueda, categoria, orden]);
 
   if (loading) return (
-    <div className="min-h-screen flex items-center justify-center">
-       <div className="animate-bounce text-regalo-rosa font-bold">Cargando PINK SHOP...</div>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-white">
+      {/* Contenedor Animado */}
+      <div className="flex flex-col items-center animate-pulse duration-5000">
+        
+        {/* Tu Logo o Icono */}
+        <div className="mb-6 relative">
+          <div className="w-35 h-35 rounded-full flex items-center justify-center shadow-lg shadow-regalo-rosa/20">
+            <img src="https://res.cloudinary.com/dzgqpqv9f/image/upload/v1767021085/logo_pink_shop_mkqx5z.png" alt="Logo Pink Shop" className="w-25 h-25" />
+          </div>
+          {/* Aro decorativo con animación de expansión */}
+          <div className="absolute inset-0 border-4 border-regalo-rosa rounded-full animate-ping opacity-20"></div>
+        </div>
+  
+        {/* Texto con Estilo */}
+        <h1 className="text-2xl font-black text-black-400 tracking-tighter">
+          PINK <span className="text-regalo-rosa">SHOP</span>
+        </h1>
+        
+        <p className="mt-2 text-regalo-rosa font-bold text-xs uppercase tracking-[0.2em] animate-bounce">
+          Si compras, ganas!
+        </p>
+      </div>
+  
+      {/* Barra de carga minimalista en la parte inferior */}
+      <div className="fixed bottom-0 left-0 h-1 bg-regalo-rosa animate-[load_2s_ease-in-out_infinite] w-full origin-left"></div>
+  
+      <style jsx>{`
+        @keyframes load {
+          0% { transform: scaleX(0); }
+          50% { transform: scaleX(0.5); }
+          100% { transform: scaleX(1); }
+        }
+      `}</style>
     </div>
   );
 
@@ -88,7 +130,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-6 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <div className="w-12 h-12 rounded-full  flex items-center justify-center font-bold text-regalo-rosa">
-              <img src="https://res.cloudinary.com/dzgqpqv9f/image/upload/v1767021085/logo_pink_shop_mkqx5z.png" alt="Logo Tiempo Para Regalar" className="w-12 h-12" />
+              <img src="https://res.cloudinary.com/dzgqpqv9f/image/upload/v1767021085/logo_pink_shop_mkqx5z.png" alt="Logo Pink Shop" className="w-12 h-12" />
             </div>
             <h1 className="text-xl font-black tracking-tighter">
               <a href='/'><span className="text-regalo-rosa">PINK SHOP</span></a>
@@ -101,6 +143,13 @@ export default function Home() {
             <a href="#trayectoria" className="hover:text-regalo-rosa transition">Trayectoria</a>
             <a href="#contacto" className="hover:text-regalo-rosa transition">Contacto</a>
           </nav>
+          <a 
+        href="/dashboard" 
+        className="p-2 rounded-full bg-gray-50 text-regalo-azul-c hover:text-regalo-rosa hover:bg-pink-50 transition-all active:scale-95"
+        title="Panel de Administración"
+      >
+        <Users size={24} />
+      </a>
         </div>
       </header>
 
@@ -573,6 +622,7 @@ const StatCardDarkMode = ({ icon, target, label, symbol, accentColor }) => (
     <div className="absolute bottom-6 left-1/2 -translate-x-1/2 w-0 h-1 bg-regalo-azul-c group-hover:w-12 transition-all duration-500 rounded-full"></div>
   </div>
 );
+
 const Badge = ({ estado }) => {
   if (!estado) return null;
   
@@ -585,6 +635,54 @@ const Badge = ({ estado }) => {
   return (
     <span className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase shadow-md z-10 ${estilos[estado] || "bg-regalo-lila text-white"}`}>
       {estado}
+    </span>
+  );
+};
+
+const BadgeTemporada = ({ temporadas }) => {
+  // 1. Si el producto no tiene temporadas asignadas, no mostramos nada
+  if (!temporadas || temporadas.length === 0) return null;
+
+  // 2. Función para obtener qué temporada "toca" hoy según el calendario
+  const obtenerTemporadaActivaHoy = () => {
+    const fecha = new Date();
+    const mes = fecha.getMonth() + 1; // Enero es 1
+    const dia = fecha.getDate();
+
+    if (mes === 1 && dia >= 1 && dia < 10) return 'niños';
+    if (mes === 2 && dia <= 15) return 'amor';
+    if (mes === 4 && dia >= 10 &&  mes ===5 && dia < 2) return 'niños';
+    if (mes === 5 && dia <= 15) return 'madre';
+    if (mes === 6 && dia <= 20) return 'padre';
+    if (mes === 12) return 'regalos'; // Temporada Navideña / Regalos generales
+    
+    return null;
+  };
+
+  const temporadaActivaHoy = obtenerTemporadaActivaHoy();
+
+  const listaTemporadasProducto = Array.isArray(temporadas) 
+    ? temporadas 
+    : temporadas.split(', ').map(t => t.toLowerCase().trim());
+
+  const esTemporadaActual = listaTemporadasProducto.includes(temporadaActivaHoy);
+  // Si el producto no pertenece a la temporada que estamos viviendo hoy, no mostramos el badge
+  if (!esTemporadaActual) return null;
+
+  // 4. Configuración de estilos y nombres visuales
+  const config = {
+    amor: { texto: "Especial del amor", clase: "bg-red-500" },
+    niños: { texto: "Especial para regalar", clase: "bg-blue-400" },
+    madre: { texto: "Especial para Mamá", clase: "bg-rose-400" },
+    padre: { texto: "Especial para Papá", clase: "bg-slate-700" },
+    regalos: { texto: "Especial para regalar", clase: "bg-red-600" },
+  };
+
+  const { texto, clase } = config[temporadaActivaHoy];
+
+  return (
+    <span className={`absolute top-12 left-4 px-3 py-1 rounded-full text-[11px] font-black uppercase shadow-lg z-10 text-white animate-bounce-slow ${clase}`}>
+      ✨ {texto}
     </span>
   );
 };
@@ -610,6 +708,7 @@ function TarjetaProducto({ producto, onOpenModal }) {
       {/* Carrusel */}
       <div className="relative h-80 overflow-hidden bg-gray-200">
       <Badge estado={producto.estado} />
+      <BadgeTemporada temporadas={producto.temporadas} />
         <img src={producto.imagenes[imgIndex]} alt={producto.nombre} className="w-full h-full group-hover:scale-110 object-cover transition-transform duration-500" />
         <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-regalo-rosa shadow">
                   {producto.categoria}
@@ -630,9 +729,13 @@ function TarjetaProducto({ producto, onOpenModal }) {
 
       <div className="p-6 text-center">
         {/* Texto de cantidad vendida */}
-        {producto.vendidos > 0 && (
+        {producto.vendidos > 0 ? (
           <p className="text-xs font-bold text-gray-400 mb-1 flex items-center justify-center gap-1">
             <span className="text-regalo-rosa">★</span> +{producto.vendidos} vendidos
+          </p>
+        ) : (
+          <p className="text-xs font-bold text-gray-300 mb-1 flex items-center justify-center gap-1 italic">
+          <span className="text-regalo-rosa">★</span> ¡Recién agregado! <span className="text-regalo-rosa">★</span>
           </p>
         )}
         <h3 className="text-xl font-bold mb-2 group-hover:text-regalo-rosa transition">{producto.nombre}</h3>
