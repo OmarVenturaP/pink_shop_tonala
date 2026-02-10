@@ -25,7 +25,7 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   const cargarProductos = async () => {
-    const res = await fetch('/api/productos');
+    const res = await fetch('/api/productos-dashboard');
     const data = await res.json();
     setProductos(data);
     setLoading(false);
@@ -64,6 +64,7 @@ export default function DashboardPage() {
           <tr>
             <th className="p-4">Imagen</th>
             <th className="p-4">Producto</th>
+            <th className="p-4">Estatus</th>
             <th className="p-4">Precio</th>
             <th className="p-4 text-center">Acciones</th>
           </tr>
@@ -77,6 +78,9 @@ export default function DashboardPage() {
               <td className="p-4">
                 <div className="font-bold text-gray-700">{p.nombre}</div>
                 <div className="text-xs text-gray-400">{p.categoria}</div>
+              </td>
+              <td className="p-4">
+                <div className="text-xs text-gray-400 text-center"><Badge estado={p.estado} /></div>
               </td>
               <td className="p-4">
                 <div className="font-bold text-regalo-verde">${p.precio_oferta}</div>
@@ -100,12 +104,14 @@ export default function DashboardPage() {
       {/* --- VISTA MÓVIL (TARJETAS DINÁMICAS) --- */}
       <div className="md:hidden divide-y divide-gray-100">
         {productos.map(p => (
+          console.log(p.estado),
           <div key={p.id_producto} className="p-4 flex flex-col gap-4 italic">
             <div className="flex items-center gap-4">
               <img src={p.imagenes?.split(' | ')[0]} className="w-16 h-16 object-cover rounded-xl shadow-sm" alt="" />
               <div className="flex-1">
                 <div className="font-black text-gray-800 leading-tight">{p.nombre}</div>
                 <div className="text-xs text-gray-400 uppercase font-bold">{p.categoria}</div>
+                <Badge estado={p.estado} />
                 <div className="mt-1">
                   <span className="font-black text-regalo-verde text-lg">${p.precio_oferta}</span>
                   <span className="text-xs text-gray-400 line-through ml-2">${p.precio_original}</span>
@@ -143,3 +149,19 @@ export default function DashboardPage() {
     </div>
   );
 }
+
+const Badge = ({ estado }) => {
+  if (!estado) return null;
+  
+  const estilos = {
+    nuevo: "bg-regalo-verde text-white",
+    agotado: "bg-gray-500 text-white",
+    oferta: "bg-regalo-amarillo text-red-800",
+  };
+
+  return (
+    <span className={`left-4 px-3 py-1 rounded-full text-xs font-bold uppercase  z-10 ${estilos[estado] || "bg-regalo-lila text-white"}`}>
+      {estado}
+    </span>
+  );
+};

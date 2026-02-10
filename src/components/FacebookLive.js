@@ -4,7 +4,7 @@ export default function FacebookLive() {
 
   return (
 
-    <section className="py-10 bg-linear-to-br from-white to-pink-50 overflow-hidden">
+    <section id="contacto" className="py-10 bg-linear-to-br from-white to-pink-50 overflow-hidden">
     <div className="max-w-7xl container mx-auto px-4">
       <div className="bg-white rounded-[3rem] p-8 md:p-10 shadow-2xl shadow-pink-100 border-2 border-regalo-rosa/10 relative overflow-hidden">
         

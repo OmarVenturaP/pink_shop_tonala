@@ -181,7 +181,7 @@ export default function Home() {
       {/* GRID DE PRODUCTOS */}
       <section className="max-w-7xl mx-auto py-12 px-4">
       {productosFiltrados.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-4 gap-5">
           {productosFiltrados.map((producto) => (
             <TarjetaProducto 
               key={producto.id} 
@@ -193,14 +193,13 @@ export default function Home() {
       ) : (
         /* Mostrar mensaje de no resultados solo si no hay error */
         !error && (
-          <div className="text-center py-20 border-2 border-dashed rounded-3xl">
-            <h3 className="text-xl font-bold text-gray-400">No encontramos resultados</h3>
+          <div>
           </div>
         )
       )}
       </section>
       {/* SECCIÓN DE ALERTAS Y FEEDBACK */}
-      <section className="max-w-7xl mx-auto px-4 mt-6">
+      <section className="max-w-7xl mx-auto px-4 mb-12">
         {/* ERROR TÉCNICO (Archivo dañado o datos nulos) */}
         {error && (
           <div className="bg-red-50 border-l-4 border-regalo-rosa p-4 rounded-r-xl my-4">
@@ -218,8 +217,8 @@ export default function Home() {
         {!error && productosFiltrados.length === 0 && (
           <div className="text-center py-20 bg-white rounded-3xl border-2 border-dashed border-gray-200">
             <div className="text-5xl mb-4">🔍</div>
-            <h3 className="text-xl font-bold text-gray-400">¡Ups! No encontramos coincidencias</h3>
-            <p className="text-gray-400 mb-6">Prueba con otras palabras o cambia la categoría.</p>
+            <h3 className="text-xl font-bold text-gray-400">¡Ups! No encontramos productos</h3>
+            <p className="text-gray-400 mb-6">Prueba con otras palabras, cambia la categoría o recarga la página.</p>
             <button 
               onClick={() => {setBusqueda(""); setCategoria("Todas"); setOrden("default");}}
               className="bg-regalo-azul-c text-white px-6 py-2 rounded-full font-bold hover:bg-regalo-azul-r transition"
@@ -431,8 +430,7 @@ function TarjetaProducto({ producto, onOpenModal }) {
   
 
   return (
-    <div className="group bg-white rounded-3xl overflow-hidden border-2 border-transparent hover:border-regalo-lila transition-all duration-300 shadow-lg hover:shadow-2xl">
-      {/* Carrusel */}
+    <div className="group bg-white rounded-3xl shadow-lg flex flex-col h-full overflow-hidden border-2 border-transparent hover:border-regalo-lila transition-all duration-300 hover:shadow-2xl">      {/* Carrusel */}
       <div className="relative h-80 overflow-hidden bg-gray-200">
       <Badge estado={producto.estado} />
       <BadgeTemporada temporadas={producto.temporadas} />

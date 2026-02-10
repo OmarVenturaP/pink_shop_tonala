@@ -5,7 +5,7 @@ export async function GET() {
   const pool = getPool();
 
   try {
-    const [rows] = await pool.query('CALL sp_obtener_productos()');
+    const [rows] = await pool.query('CALL sp_obtener_productos_completos()');
     const productos = rows[0];
     return NextResponse.json(productos);
   } catch (error) {

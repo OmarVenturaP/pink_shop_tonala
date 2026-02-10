@@ -17,7 +17,6 @@ export default function Headers() {
           </div>
           <nav className="hidden md:flex gap-6 font-medium text-regalo-azul-r">
             <a href="#productos" className="hover:text-regalo-rosa transition">Productos</a>
-            <a href="#promociones" className="hover:text-regalo-rosa transition">Promociones</a>
             <a href="#servicios" className="hover:text-regalo-rosa transition">Servicios</a>
             <a href="#trayectoria" className="hover:text-regalo-rosa transition">Trayectoria</a>
             <a href="#contacto" className="hover:text-regalo-rosa transition">Contacto</a>

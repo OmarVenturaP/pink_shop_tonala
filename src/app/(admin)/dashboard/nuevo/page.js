@@ -115,9 +115,11 @@ export default function NuevoProducto() {
         </Link>
       </div>
       <form onSubmit={guardar} className="grid grid-cols-2 gap-6">
-        
-        <input className="col-span-2 p-4 border rounded-2xl" placeholder="Nombre del producto" required
-          onChange={e => setProd({...prod, nombre: e.target.value})} />
+        <span className="px-3 bg-primary/10 text-primary rounded-full text-sm">
+          {(prod.nombre || "").length}/40
+        </span>
+        <input className="col-span-2 p-4 border rounded-2xl" placeholder="Nombre del producto (min 35 - 40 caracteres)" required
+          onChange={e => setProd({...prod, nombre: e.target.value})} minLength={35} maxLength={40} />
 
           <div className="col-span-2">
           <label className="text-xs font-bold text-gray-400 uppercase ml-2">Descripción del Producto</label>

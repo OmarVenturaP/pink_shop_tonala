@@ -94,8 +94,11 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
         <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
           
           <div className="col-span-2">
+            <span className="px-3 bg-primary/10 text-primary rounded-full text-sm">
+              {(form.nombre || "").length}/30
+            </span>
             <label className="text-xs font-bold text-gray-400 uppercase ml-2">Nombre</label>
-            <input className="w-full p-4 border rounded-2xl" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} />
+            <input className="w-full p-4 border rounded-2xl" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} minLength={25} maxLength={30} />
           </div>
 
           <div className="col-span-2">
@@ -169,11 +172,6 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
           </div>
         </div>
           
-        {/* Descripción */}
-        <div className="col-span-2">
-          <textarea className="w-full p-4 border rounded-2xl h-24" placeholder="Descripción"
-            value={form.descripcion} onChange={e => setForm({...form, descripcion: e.target.value})} />
-        </div>
      
         {/* Colores (Visualización simple) */}
         <div className="col-span-2">
