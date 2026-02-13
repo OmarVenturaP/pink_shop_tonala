@@ -29,7 +29,7 @@ export default function Home() {
 
         // 1. Iniciamos la petición y el temporizador de 3 segundos al mismo tiempo
         const peticionDatos = fetch('/api/productos');
-        const temporizador = new Promise((resolve) => setTimeout(resolve, 1500));
+        const temporizador = new Promise((resolve) => setTimeout(resolve, 2000));
 
         // 2. Esperamos a que ambos terminen (el que tarde más mandará)
         const [res] = await Promise.all([peticionDatos, temporizador]);
@@ -129,7 +129,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white text-gray-800 font-sans">
-    <SorteoPink />
+    {/* <SorteoPink /> */}
     
       <Headers />
       <SoftCategorias />
@@ -282,12 +282,28 @@ export default function Home() {
                   <span className="text-regalo-azul-c font-bold text-sm uppercase tracking-widest">
                     {productoSeleccionado.categoria}
                   </span>
+                  
                   {productoSeleccionado.vendidos > 10 && (
                     <span className="bg-orange-100 text-orange-600 px-2 py-0.5 rounded-md text-[10px] font-black uppercase">
                       🔥 Popular
                     </span>
                   )}
                 </div>
+                {vendedoresLogos[productoSeleccionado.vendedor?.toLowerCase()] && (
+                  <div className="flex items-center gap-3 mt-3 bg-gray-50 px-4 py-2 rounded-xl w-fit border border-gray-100">
+                    <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
+                    Vendido por:
+                    </span>
+                    <a href='https://tiempo-para-regalar.vercel.app' target='_blank'>
+                      <img
+                        src={vendedoresLogos[productoSeleccionado.vendedor.toLowerCase()]}
+                        alt={`Vendido por ${productoSeleccionado.vendedor}`}
+                        className="w-9 h-9 rounded-full border-2 border-white shadow-md object-cover"
+                      />
+                    </a>
+                    
+                  </div>
+                )}
                   <h3 className="text-4xl font-black text-regalo-azul-r mt-2 leading-tight">{productoSeleccionado.nombre}</h3>
                   <p className="text-sm text-gray-500 font-medium mt-1">
                     Más de <span className="font-bold text-gray-800">{productoSeleccionado.vendidos} personas</span> han regalado esto.
@@ -413,6 +429,10 @@ const BadgeTemporada = ({ temporadas }) => {
   );
 };
 
+const vendedoresLogos = {
+  marisol: "https://res.cloudinary.com/dzgqpqv9f/image/upload/v1766933777/logo_bg_regalar_yfbuhv.png",
+};
+
 
 // Sub-componente para la Tarjeta con Carrusel
 function TarjetaProducto({ producto, onOpenModal }) {
@@ -427,6 +447,8 @@ function TarjetaProducto({ producto, onOpenModal }) {
     e.stopPropagation();
     setImgIndex((prev) => (prev - 1 + producto.imagenes.length) % producto.imagenes.length);
   };
+
+  console.log("Renderizando tarjeta de:", producto);
   
 
   return (
@@ -434,6 +456,15 @@ function TarjetaProducto({ producto, onOpenModal }) {
       <div className="relative h-80 overflow-hidden bg-gray-200">
       <Badge estado={producto.estado} />
       <BadgeTemporada temporadas={producto.temporadas} />
+        {vendedoresLogos[producto.vendedor?.toLowerCase()] && (
+          <div className="absolute bottom-4 right-4 z-20">
+            <img
+              src={vendedoresLogos[producto.vendedor.toLowerCase()]}
+              alt={`Vendido por ${producto.vendedor}`}
+              className="w-12 h-12 rounded-full border-2 border-white shadow-lg bg-white object-cover"
+            />
+          </div>
+        )}
         <img src={producto.imagenes[imgIndex]} alt={producto.nombre} className="w-full h-full group-hover:scale-110 object-cover transition-transform duration-500" />
         <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full text-xs font-bold text-regalo-rosa shadow">
                   {producto.categoria}

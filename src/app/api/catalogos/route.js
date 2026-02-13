@@ -10,7 +10,8 @@ export async function GET() {
     // rows[1] contiene los estados
     return NextResponse.json({
       categorias: rows[0],
-      estados: rows[1]
+      estados: rows[1],
+      vendedor: rows[2]
     });
   } catch (error) {
     console.error("Error cargando catálogos:", error);

@@ -7,16 +7,16 @@ export async function POST(req) {
     const body = await req.json();
     const { 
       nombre, id_categoria, precio_original, precio_oferta, 
-      descripcion, id_estado, imagenes, colores, temporadas 
+      descripcion, id_estado,vendedor, imagenes, colores, temporadas 
     } = body;
 
     await connection.beginTransaction();
 
     // 1. Insertar el Producto Base
     const [prodResult] = await connection.query(
-      `INSERT INTO cat_productos (nombre, id_categoria, precio_original, precio_oferta, descripcion, id_estado) 
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [nombre, id_categoria, precio_original, precio_oferta, descripcion, id_estado]
+      `INSERT INTO cat_productos (nombre, id_categoria, precio_original, vendedor, precio_oferta, descripcion, id_estado) 
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [nombre, id_categoria, precio_original,vendedor, precio_oferta, descripcion, id_estado]
     );
     const id_producto = prodResult.insertId;
 
@@ -60,7 +60,7 @@ export async function PUT(req) {
     const body = await req.json();
     const { 
       id_producto, nombre, id_categoria, precio_original, 
-      precio_oferta, descripcion, vendidos, id_estado, imagenes, colores, temporadas
+      precio_oferta, descripcion, vendidos, vendedor, id_estado, imagenes, colores, temporadas
     } = body;
     await connection.beginTransaction();
     console.log(body)
@@ -75,9 +75,10 @@ export async function PUT(req) {
         precio_oferta=?, 
         descripcion=?, 
         id_estado=?, 
-        vendidos=?
+        vendidos=?,
+        vendedor=?
        WHERE id_producto=?`,
-      [nombre, id_categoria, precio_original, precio_oferta, descripcion, id_estado, vendidos, id_producto]
+      [nombre, id_categoria, precio_original, precio_oferta, descripcion, id_estado, vendidos, vendedor, id_producto]
     );
 
     // 2. ACTUALIZAR IMÁGENES (Estrategia: Borrar todo e insertar lo nuevo)

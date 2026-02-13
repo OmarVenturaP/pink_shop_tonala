@@ -15,6 +15,7 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
     precio_oferta: producto.precio_oferta || '',
     descripcion: producto.descripcion || '',
     vendidos: producto.vendidos || '',
+    vendedor: producto.vendedor || '',
     imagenes: [],
     colores: [],
     temporadas: [] 
@@ -95,10 +96,10 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
           
           <div className="col-span-2">
             <span className="px-3 bg-primary/10 text-primary rounded-full text-sm">
-              {(form.nombre || "").length}/30
+              {(form.nombre || "").length}/40
             </span>
             <label className="text-xs font-bold text-gray-400 uppercase ml-2">Nombre</label>
-            <input className="w-full p-4 border rounded-2xl" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} minLength={25} maxLength={30} />
+            <input className="w-full p-4 border rounded-2xl" value={form.nombre} onChange={e => setForm({...form, nombre: e.target.value})} minLength={35} maxLength={40} />
           </div>
 
           <div className="col-span-2">
@@ -117,10 +118,10 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
             value={form.precio_oferta} onChange={e => setForm({...form, precio_oferta: e.target.value})} />
           </div>
           <div>
-          <label className="text-xs font-bold text-gray-400 uppercase ml-2">Vendidos</label>
-          <input type="number" className="w-full p-4 border rounded-2xl bg-white" placeholder="Vendidos" 
-          value={form.vendidos} onChange={e => setForm({...form, vendidos: e.target.value})} />
-        </div>
+            <label className="text-xs font-bold text-gray-400 uppercase ml-2">Vendidos</label>
+            <input type="number" className="w-full p-4 border rounded-2xl bg-white" placeholder="Vendidos" 
+            value={form.vendidos} onChange={e => setForm({...form, vendidos: e.target.value})} />
+          </div>
 
           {/* Temporadas Checkboxes */}
           <div className="col-span-2 p-4 bg-gray-50 rounded-2xl border border-gray-100">
@@ -150,6 +151,14 @@ export default function EditProductModal({ producto, onClose, onUpdate }) {
             <label className="text-xs font-bold text-gray-400 uppercase ml-2">Estado</label>
             <select className="w-full p-4 border rounded-2xl bg-white" value={form.id_estado} onChange={e => setForm({...form, id_estado: e.target.value})}>
               {catalogos.estados?.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
+            </select>
+          </div>
+          { console.log (catalogos.vendedor)}
+          <div>
+            <label className="text-xs font-bold text-gray-400 uppercase ml-2">Vendedor</label>
+            <select className="w-full p-4 border rounded-2xl bg-white" value={form.vendedor} onChange={e => setForm({...form, vendedor: e.target.value})} required>
+            <option value="" disabled>Selecciona Vendedor</option>  
+            {catalogos.vendedor?.map(v => <option key={v.id} value={v.vendedor}>{v.vendedor}</option>)}
             </select>
           </div>
 

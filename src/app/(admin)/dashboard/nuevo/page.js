@@ -15,12 +15,13 @@ export default function NuevoProducto() {
     precio_original: '', 
     precio_oferta: '', 
     descripcion: '', 
-    id_estado: '', 
+    id_estado: '',
+    vendedor: '', 
     imagenes: [],
     colores: [], 
     temporadas: []
   });
-  const [catalogos, setCatalogos] = useState({ categorias: [], estados: [] });
+  const [catalogos, setCatalogos] = useState({ categorias: [], estados: [], vendedor: [] });
   const [enviando, setEnviando] = useState(false);
   const router = useRouter();
 
@@ -33,9 +34,11 @@ export default function NuevoProducto() {
         if (data.categorias && data.estados) {
           setCatalogos({
             categorias: data.categorias,
-            estados: data.estados
+            estados: data.estados,
+            vendedor: data.vendedor
           });
         }
+        console.log("Catálogos cargados:", data);
       } catch (error) {
         console.error("No se pudieron cargar los selectores", error);
       }
@@ -142,6 +145,12 @@ export default function NuevoProducto() {
         <select className="p-4 border rounded-2xl" required onChange={e => setProd({...prod, id_estado: e.target.value})}>
           <option value="">Selecciona Estado</option>
           {catalogos.estados.map(e => <option key={e.id} value={e.id}>{e.nombre}</option>)}
+        </select>
+
+        {/* SELECT DE VENDEDOR */}
+        <select className="p-4 border rounded-2xl" required onChange={e => setProd({...prod, vendedor: e.target.value})}>
+          <option value="">Selecciona Vendedor</option>
+          {catalogos.vendedor.map(v => <option key={v.id} value={v.vendedor}>{v.vendedor}</option>)}
         </select>
 
         <input type="number" className="p-4 border rounded-2xl" placeholder="Precio Original" 
