@@ -336,9 +336,10 @@ export default function Home() {
 
                   <button 
                   onClick={() => {
-                      const telefono = "5219619326182"; 
-                      const mensaje = `Hola PINK SHOP! 👋 Me interesa obtener más información sobre: 
-                  *${productoSeleccionado.nombre}* Precio: *$${productoSeleccionado.precio}* ¿Tienen disponibilidad?`;
+                      const telefono = productoSeleccionado.vendedor == "marisol" ? "5219619326135" : "5219615684310"; 
+                      const mensaje = productoSeleccionado.vendedor == "marisol" ? `Hola TIEMPO PARA REGALAR! 👋 Me interesa obtener más información sobre: 
+                      *${productoSeleccionado.nombre}* Precio: *$${productoSeleccionado.precio}* ¿Tienen disponibilidad?` : `Hola PINK SHOP! 👋 Me interesa obtener más información sobre: 
+                      *${productoSeleccionado.nombre}* Precio: *$${productoSeleccionado.precio}* ¿Tienen disponibilidad?`;
                       
                       const url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
                       window.open(url, '_blank');
